@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CostByte - AI-Powered Food Cost Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #059669;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #9ca3af;
+            --success: #10b981;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            background-color: #f5f7ff;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(120deg, #2563eb, #1e40af);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 2rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: #dbeafe;
+        }
+        
+        .cta-button {
+            background-color: white;
+            color: var(--primary);
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            background-color: #dbeafe;
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(37, 99, 235, 0.9), rgba(30, 64, 175, 0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%232563eb"/><path d="M0 0L100 100" stroke="%231e40af" stroke-width="2"/><path d="M100 0L0 100" stroke="%231e40af" stroke-width="2"/></svg>');
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .button {
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .button.primary {
+            background-color: white;
+            color: var(--primary);
+        }
+        
+        .button.secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Clients Section */
+        .clients {
+            padding: 4rem 0;
+            background-color: #f1f5f9;
+        }
+        
+        .client-logos {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .client-logo {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        /* Pricing Section */
+        .pricing {
+            padding: 5rem 0;
+            background-color: white;
+        }
+        
+        .pricing-card {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            border-radius: 15px;
+            padding: 3rem;
+            color: white;
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
+        }
+        
+        .price {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+        
+        .price span {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            color: white;
+            font-size: 2.5rem;
+        }
+        
+        /* Form */
+        .form-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 500px;
+            margin: 2rem auto 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .form-button {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .form-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-section h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .footer-section p {
+            margin-bottom: 1rem;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 0.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .client-logos {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <span>CostByte</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#clients">Clients</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <a href="#demo" class="cta-button">Request Demo</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Transform Your Kitchen Operations with AI</h1>
+            <p>Headsup AI is a powerful food cost-saving and kitchen operations tool that helps hotels and restaurants improve margins, streamline processes, and make smarter purchasing decisions.</p>
+            <div class="hero-buttons">
+                <a href="#demo" class="button primary">Get Started</a>
+                <a href="#features" class="button secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>How Headsup AI Helps Your Business</h2>
+                <p>Powerful features designed to reduce costs and improve efficiency</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Real-time Food Cost Tracking</h3>
+                    <p>See how your food cost is performing across locations daily, not just at month-end.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Price Change Alerts</h3>
+                    <p>Be instantly alerted when supplier prices increase — no more surprises on your P&L.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>Smart Purchasing Insights</h3>
+                    <p>Identify lower-cost suppliers or opportunities to consolidate orders.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+                    <h3>Waste Monitoring</h3>
+                    <p>Spot where and why waste is happening and reduce unnecessary losses.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Inventory Automation</h3>
+                    <p>Save hours on manual stock counts with mobile-based inventory tools.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Military-Grade Security</h3>
+                    <p>Your data is protected with the highest security standards and compliance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clients Section -->
+    <section class="clients" id="clients">
+        <div class="container">
+            <div class="section-title">
+                <h2>Trusted by Industry Leaders</h2>
+                <p>Join these renowned establishments using Headsup AI</p>
+            </div>
+            <div class="client-logos">
+                <div class="client-logo">Tasha's Group</div>
+                <div class="client-logo">Ocean Basket</div>
+                <div class="client-logo">The Hussar Grill</div>
+                <div class="client-logo">Doppio Zero</div>
+                <div class="client-logo">Mugg & Bean</div>
+                <div class="client-logo">The Capetonian</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>Simple, Transparent Pricing</h2>
+                <p>Get started with Headsup AI for just</p>
+            </div>
+            <div class="pricing-card">
+                <h3>Headsup AI Premium</h3>
+                <div class="price">R799<span>/month</span></div>
+                <p>Per location - no hidden fees</p>
+                <ul style="list-style: none; margin: 1.5rem 0;">
+                    <li><i class="fas fa-check-circle"></i> All Features Included</li>
+                    <li><i class="fas fa-check-circle"></i> Priority Support</li>
+                    <li><i class="fas fa-check-circle"></i> Regular Updates</li>
+                    <li><i class="fas fa-check-circle"></i> 14-Day Free Trial</li>
+                </ul>
+                <a href="#demo" class="button primary">Start Free Trial</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="demo">
+        <div class="container">
+            <h2>Ready to Transform Your Kitchen Operations?</h2>
+            <p>Request a demo today and see how Headsup AI can help your business save costs</p>
+            
+            <div class="form-container">
+                <h3>Request a Demo</h3>
+                <form id="demoForm">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="business">Business Type</label>
+                        <select id="business" required>
+                            <option value="">Select Business Type</option>
+                            <option value="hotel">Hotel</option>
+                            <option value="restaurant">Restaurant</option>
+                            <option value="group">Restaurant Group</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="locations">Number of Locations</label>
+                        <select id="locations" required>
+                            <option value="">Select Number</option>
+                            <option value="1">1</option>
+                            <option value="2-5">2-5</option>
+                            <option value="6-10">6-10</option>
+                            <option value="10+">10+</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="form-button">Request Demo</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CostByte</h3>
+                    <p>AI-powered solutions for the food and hospitality industry. Helping businesses reduce costs and improve efficiency.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-user"></i> Nicholas Holman</p>
+                    <p><i class="fas fa-briefcase"></i> Business Consultant – Food & Hospitality</p>
+                    <p><i class="fas fa-phone"></i> 0691081301</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Compliance</h3>
+                    <p>Fully compliant with regulations in South Africa, Namibia, and Botswana.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 CostByte. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Form submission handling
+        document.getElementById('demoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const business = document.getElementById('business').value;
+            const locations = document.getElementById('locations').value;
+            
+            // In a real implementation, this would send data to a server
+            // For demo purposes, we'll show an alert
+            alert(`Thank you ${name}! Your demo request has been received. We will contact you at ${email} shortly.`);
+            
+            // Reset form
+            document.getElementById('demoForm').reset();
+        });
+        
+        // Simple animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const featureCards = document.querySelectorAll('.feature-card');
+            
+            featureCards.forEach((card, index) => {
+                // Add delay for staggered animation
+                card.style.transitionDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>
