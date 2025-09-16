@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CostByte - AI-Powered Food Cost Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #059669;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #9ca3af;
+            --success: #10b981;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            background-color: #f5f7ff;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(120deg, #2563eb, #1e40af);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 2rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: #dbeafe;
+        }
+        
+        .cta-button {
+            background-color: white;
+            color: var(--primary);
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            background-color: #dbeafe;
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(37, 99, 235, 0.9), rgba(30, 64, 175, 0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%232563eb"/><path d="M0 0L100 100" stroke="%231e40af" stroke-width="2"/><path d="M100 0L0 100" stroke="%231e40af" stroke-width="2"/></svg>');
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .button {
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .button.primary {
+            background-color: white;
+            color: var(--primary);
+        }
+        
+        .button.secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* AI Helpers Section */
+        .ai-helpers {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            color: white;
+        }
+        
+        .ai-helpers .section-title h2 {
+            color: white;
+        }
+        
+        .helpers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .helper-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .helper-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .helper-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+        }
+        
+        /* Clients Section */
+        .clients {
+            padding: 4rem 0;
+            background-color: #f1f5f9;
+        }
+        
+        .client-logos {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .client-logo {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        /* Pricing Section */
+        .pricing {
+            padding: 5rem 0;
+            background-color: white;
+        }
+        
+        .pricing-card {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            border-radius: 15px;
+            padding: 3rem;
+            color: white;
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
+        }
+        
+        .price {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+        
+        .price span {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            color: white;
+            font-size: 2.5rem;
+        }
+        
+        /* Form */
+        .form-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 500px;
+            margin: 2rem auto 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .form-button {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .form-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-section h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .footer-section p {
+            margin-bottom: 1rem;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Dashboard Button */
+        .dashboard-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
+            cursor: pointer;
+            z-index: 999;
+            animation: pulse 2s infinite, drift 8s infinite ease-in-out;
+            text-decoration: none;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes drift {
+            0% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(2deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(10px) rotate(-2deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        /* Dashboard Modal */
+        .dashboard-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .dashboard-content {
+            background: white;
+            width: 90%;
+            max-width: 1000px;
+            height: 80vh;
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+        }
+        
+        .dashboard-sidebar {
+            width: 250px;
+            background: var(--dark);
+            color: white;
+            padding: 2rem 1rem;
+        }
+        
+        .dashboard-main {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .close-dashboard {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 0.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .client-logos {
+                gap: 1rem;
+            }
+            
+            .dashboard-content {
+                flex-direction: column;
+                height: 90vh;
+            }
+            
+            .dashboard-sidebar {
+                width: 100%;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <span>CostByte</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#ai-helpers">AI Helpers</a></li>
+                        <li><a href="#clients">Clients</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <a href="#demo" class="cta-button">Request Demo</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Transform Your Kitchen Operations with AI</h1>
+            <p>Headsup AI is a powerful food cost-saving and kitchen operations tool that helps hotels and restaurants improve margins, streamline processes, and make smarter purchasing decisions.</p>
+            <div class="hero-buttons">
+                <a href="#demo" class="button primary">Get Started</a>
+                <a href="#features" class="button secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>How Headsup AI Helps Your Business</h2>
+                <p>Powerful features designed to reduce costs and improve efficiency</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Real-time Food Cost Tracking</h3>
+                    <p>See how your food cost is performing across locations daily, not just at month-end.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Price Change Alerts</h3>
+                    <p>Be instantly alerted when supplier prices increase — no more surprises on your P&L.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>Smart Purchasing Insights</h3>
+                    <p>Identify lower-cost suppliers or opportunities to consolidate orders.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+                    <h3>Waste Monitoring</h3>
+                    <p>Spot where and why waste is happening and reduce unnecessary losses.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Inventory Automation</h3>
+                    <p>Save hours on manual stock counts with mobile-based inventory tools.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Military-Grade Security</h3>
+                    <p>Your data is protected with the highest security standards and compliance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Helpers Section -->
+    <section class="ai-helpers" id="ai-helpers">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our AI Assistant Team</h2>
+                <p>CostByte uses synthetic intelligence to create a team of AI helpers that complete complex tasks</p>
+            </div>
+            <div class="helpers-grid">
+                <div class="helper-card">
+                    <div class="helper-icon">
+                        <i class="fas fa-analytics"></i>
+                    </div>
+                    <h3>Data Analyst</h3>
+                    <p>Analyzes your food cost data and identifies savings opportunities</p>
+                </div>
+                <div class="helper-card">
+                    <div class="helper-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Inventory Manager</h3>
+                    <p>Automates inventory tracking and predicts ordering needs</p>
+                </div>
+                <div class="helper-card">
+                    <div class="helper-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3>Cost Predictor</h3>
+                    <p>Forecasts price fluctuations and recommends optimal purchasing times</p>
+                </div>
+                <div class="helper-card">
+                    <div class="helper-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Security Guardian</h3>
+                    <p>Ensures military-grade security and compliance with regional regulations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clients Section -->
+    <section class="clients" id="clients">
+        <div class="container">
+            <div class="section-title">
+                <h2>Trusted by Industry Leaders</h2>
+                <p>Join these renowned establishments using Headsup AI</p>
+            </div>
+            <div class="client-logos">
+                <div class="client-logo">Tasha's Group</div>
+                <div class="client-logo">Ocean Basket</div>
+                <div class="client-logo">The Hussar Grill</div>
+                <div class="client-logo">Doppio Zero</div>
+                <div class="client-logo">Mugg & Bean</div>
+                <div class="client-logo">The Capetonian</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>Simple, Transparent Pricing</h2>
+                <p>Get started with Headsup AI for just</p>
+            </div>
+            <div class="pricing-card">
+                <h3>Headsup AI Premium</h3>
+                <div class="price">R799<span>/month</span></div>
+                <p>Per location - no hidden fees</p>
+                <ul style="list-style: none; margin: 1.5rem 0;">
+                    <li><i class="fas fa-check-circle"></i> All Features Included</li>
+                    <li><i class="fas fa-check-circle"></i> Priority Support</li>
+                    <li><i class="fas fa-check-circle"></i> Regular Updates</li>
+                    <li><i class="fas fa-check-circle"></i> 14-Day Free Trial</li>
+                </ul>
+                <a href="#demo" class="button primary">Start Free Trial</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="demo">
+        <div class="container">
+            <h2>Ready to Transform Your Kitchen Operations?</h2>
+            <p>Request a demo today and see how Headsup AI can help your business save costs</p>
+            
+            <div class="form-container">
+                <h3>Request a Demo</h3>
+                <form id="demoForm">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="business">Business Type</label>
+                        <select id="business" required>
+                            <option value="">Select Business Type</option>
+                            <option value="hotel">Hotel</option>
+                            <option value="restaurant">Restaurant</option>
+                            <option value="group">Restaurant Group</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="locations">Number of Locations</label>
+                        <select id="locations" required>
+                            <option value="">Select Number</option>
+                            <option value="1">1</option>
+                            <option value="2-5">2-5</option>
+                            <option value="6-10">6-10</option>
+                            <option value="10+">10+</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="form-button">Request Demo</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CostByte</h3>
+                    <p>AI-powered solutions for the food and hospitality industry. Helping businesses reduce costs and improve efficiency.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-user"></i> Nicholas Holman</p>
+                    <p><i class="fas fa-briefcase"></i> Business Consultant – Food & Hospitality</p>
+                    <p><i class="fas fa-phone"></i> 0691081301</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Compliance</h3>
+                    <p>Fully compliant with regulations in South Africa, Namibia, and Botswana.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 CostByte. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Dashboard Button -->
+    <a class="dashboard-button" id="dashboardBtn">
+        <i class="fas fa-chart-line"></i>
+    </a>
+
+    <!-- Dashboard Modal -->
+    <div class="dashboard-modal" id="dashboardModal">
+        <div class="close-dashboard" id="closeDashboard">
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="dashboard-content">
+            <div class="dashboard-sidebar">
+                <h3 style="color: white; text-align: center; margin-bottom: 2rem;">CostByte Dashboard</h3>
+                <ul style="list-style: none; color: white;">
+                    <li style="padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <i class="fas fa-tachometer-alt"></i> Overview
+                    </li>
+                    <li style="padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <i class="fas fa-chart-bar"></i> Analytics
+                    </li>
+                    <li style="padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <i class="fas fa-users"></i> Clients
+                    </li>
+                    <li style="padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <i class="fas fa-cog"></i> Settings
+                    </li>
+                </ul>
+            </div>
+            <div class="dashboard-main">
+                <h2>Performance Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>Total Sign-ups</h4>
+                        <div class="stat-value">87</div>
+                        <p>Goal: 100 in 15 days</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Active Clients</h4>
+                        <div class="stat-value">42</div>
+                        <p>+5 this week</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Monthly Revenue</h4>
+                        <div class="stat-value">R33,558</div>
+                        <p>Projected: R45,000</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Conversion Rate</h4>
+                        <div class="stat-value">23%</div>
+                        <p>Industry avg: 15%</p>
+                    </div>
+                </div>
+                
+                <h3>AI Performance Metrics</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>Content Generated</h4>
+                        <div class="stat-value">128</div>
+                        <p>Articles & Posts</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Emails Sent</h4>
+                        <div class="stat-value">1,542</div>
+                        <p>Open rate: 34%</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>AI Accuracy</h4>
+                        <div class="stat-value">94%</div>
+                        <p>Lead targeting</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Cost Savings</h4>
+                        <div class="stat-value">R18,250</div>
+                        <p>Identified for clients</p>
+                    </div>
+                </div>
+                
+                <h3>Recent Sign-ups</h3>
+                <div style="background: var(--light); padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid var(--gray);">
+                                <th style="text-align: left; padding: 0.5rem;">Business</th>
+                                <th style="text-align: left; padding: 0.5rem;">Type</th>
+                                <th style="text-align: left; padding: 0.5rem;">Location</th>
+                                <th style="text-align: left; padding: 0.5rem;">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid #eee;">
+                                <td style="padding: 0.5rem;">Sunset Hotel</td>
+                                <td style="padding: 0.5rem;">Hotel</td>
+                                <td style="padding: 0.5rem;">Cape Town</td>
+                                <td style="padding: 0.5rem;">Today</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #eee;">
+                                <td style="padding: 0.5rem;">Ocean View Restaurant</td>
+                                <td style="padding: 0.5rem;">Restaurant</td>
+                                <td style="padding: 0.5rem;">Durban</td>
+                                <td style="padding: 0.5rem;">Yesterday</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #eee;">
+                                <td style="padding: 0.5rem;">Mountain Lodge</td>
+                                <td style="padding: 0.5rem;">Hotel</td>
+                                <td style="padding: 0.5rem;">Johannesburg</td>
+                                <td style="padding: 0.5rem;">2 days ago</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form submission handling
+        document.getElementById('demoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const business = document.getElementById('business').value;
+            const locations = document.getElementById('locations').value;
+            
+            // In a real implementation, this would send data to a server
+            // For demo purposes, we'll show an alert and update the dashboard
+            alert(`Thank you ${name}! Your demo request has been received. We will contact you at ${email} shortly.`);
+            
+            // Update dashboard stats (simulated)
+            const totalSignups = document.querySelector('.stat-value');
+            let currentSignups = parseInt(totalSignups.textContent);
+            totalSignups.textContent = currentSignups + 1;
+            
+            // Add to recent sign-ups (simulated)
+            const signupsTable = document.querySelector('tbody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td style="padding: 0.5rem;">${name}</td>
+                <td style="padding: 0.5rem;">${business}</td>
+                <td style="padding: 0.5rem;">South Africa</td>
+                <td style="padding: 0.5rem;">Just now</td>
+            `;
+            newRow.style.borderBottom = '1px solid #eee';
+            signupsTable.prepend(newRow);
+            
+            // Reset form
+            document.getElementById('demoForm').reset();
+        });
+        
+        // Dashboard functionality
+        const dashboardBtn = document.getElementById('dashboardBtn');
+        const dashboardModal = document.getElementById('dashboardModal');
+        const closeDashboard = document.getElementById('closeDashboard');
+        
+        dashboardBtn.addEventListener('click', function() {
+            dashboardModal.style.display = 'flex';
+        });
+        
+        closeDashboard.addEventListener('click', function() {
+            dashboardModal.style.display = 'none';
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target === dashboardModal) {
+                dashboardModal.style.display = 'none';
+            }
+        });
+        
+        // Simple animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const featureCards = document.querySelectorAll('.feature-card');
+            
+            featureCards.forEach((card, index) => {
+                // Add delay for staggered animation
+                card.style.transitionDelay = `${index * 0.1}s`;
+            });
+            
+            // Simulate AI content generation
+            simulateAIContent();
+        });
+        
+        // Simulate AI content generation and analytics
+        function simulateAIContent() {
+            console.log("AI Helpers initialized...");
+            console.log("Data Analyst: Analyzing food cost patterns...");
+            console.log("Inventory Manager: Optimizing stock levels...");
+            console.log("Cost Predictor: Monitoring price fluctuations...");
+            console.log("Security Guardian: Ensuring compliance with regional regulations...");
+            
+            // Simulate ongoing AI activity
+            setInterval(() => {
+                const messages = [
+                    "AI Helper: Generated 3 new social media posts",
+                    "AI Helper: Identified R2,450 in potential savings for client",
+                    "AI Helper: Sent personalized emails to 12 hotel managers",
+                    "AI Helper: Updated predictive models with latest market data",
+                    "AI Helper: Completed security audit - all systems secure"
+                ];
+                const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                console.log(randomMessage);
+            }, 10000);
+        }
+    </script>
+</body>
+</html>
